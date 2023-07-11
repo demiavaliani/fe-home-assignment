@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { type UserInfo } from '../components/types';
+import { useSessionStorage } from '@vueuse/core';
 
-const availableUsers: Array<UserInfo> = [
+const availableUsers: UserInfo[] = [
 	{ id: 1, fullName: 'Albert Fox', imgUrl: '1' },
 	{ id: 2, fullName: 'Bessie Cooper', imgUrl: '2' },
 	{ id: 3, fullName: 'Devon Richards', imgUrl: '3' },
@@ -15,11 +16,13 @@ const availableUsers: Array<UserInfo> = [
 	{ id: 11, fullName: 'Hannah Williamson', imgUrl: '5' },
 ];
 
-export const useUsersStore = defineStore('counter',  {
+export const useUsersStore = defineStore('usersStore',  {
 	state: () => {
 		return {
 			availableUsers,
-			isUserSelectionWindowOpen: true
+			isUserSelectionWindowOpen: false,
+			selectedUserIds: useSessionStorage('selectedUserIds', [] as number[]),
+			addedUsers: useSessionStorage('addedUsers', [] as UserInfo[])
 		}
 	}
 })

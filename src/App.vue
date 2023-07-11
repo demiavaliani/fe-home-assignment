@@ -6,4 +6,9 @@
 	import MainView from './views/MainView.vue';
 </script>
 
-<style scoped></style>
+<style lang="scss">
+	#app {
+		display: flex;
+		justify-content: center;
+	}
+</style>

@@ -5,14 +5,14 @@
 			:key="user.id"
 			:full-name="user.fullName"
 			:img-url="user.imgUrl"
-			:active="selectedUserIds.includes(user.id)"
-			@click="onUserClick(user.id)"
+			:active="store.selectedUserIds.includes(user.id)"
+			@click="selectUser(user.id)"
 		/>
 	</div>
 </template>
 
 <script lang="ts" setup>
-	import { ref, computed } from 'vue';
+	import { computed } from 'vue';
 	import UserSelectionItem from '@/components/UserSelectionItem.vue';
 	import { useUsersStore } from '../stores/usersStore';
 
@@ -20,14 +20,13 @@
 		searchText: string;
 	}>();
 
-	const selectedUserIds = ref<number[]>([]);
 	const store = useUsersStore();
 
-	const onUserClick = (currentUserId: number) => {
-		if (selectedUserIds.value.includes(currentUserId)) {
-			selectedUserIds.value = selectedUserIds.value.filter((id) => id !== currentUserId);
+	const selectUser = (currentUserId: number) => {
+		if (store.selectedUserIds.includes(currentUserId)) {
+			store.selectedUserIds = store.selectedUserIds.filter((id) => id !== currentUserId);
 		} else {
-			selectedUserIds.value.push(currentUserId);
+			store.selectedUserIds.push(currentUserId);
 		}
 	};
 

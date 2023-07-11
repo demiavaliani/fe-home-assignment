@@ -3,9 +3,7 @@
 		<div class="user-selection-window__header">
 			<div class="user-selection-window__text">
 				<p class="user-selection-window__title">Add users</p>
-				<button type="button" class="user-selection-window__cancel" @click="onCancel">
-					Cancel
-				</button>
+				<button type="button" class="user-selection-window__cancel" @click="cancel">Cancel</button>
 			</div>
 
 			<div class="user-selection-window__search">
@@ -22,7 +20,7 @@
 		<UserSelectionItemWrapper :search-text="searchText" />
 
 		<div class="user-selection-window__footer">
-			<button type="button" class="user-selection-window__add-button">Add</button>
+			<button type="button" class="user-selection-window__add-button" @click="addUsers">Add</button>
 		</div>
 	</div>
 </template>
@@ -31,18 +29,34 @@
 	import { ref } from 'vue';
 	import UserSelectionItemWrapper from './UserSelectionItemWrapper.vue';
 	import { useUsersStore } from '@/stores/usersStore';
+	import { type UserInfo } from '../components/types';
 
 	const searchText = ref('');
 	const store = useUsersStore();
 
 	const onUserType = (ev: Event) => (searchText.value = (ev.target as HTMLInputElement).value);
 
-	const onCancel = () => (store.isUserSelectionWindowOpen = false);
+	const cancel = () => (store.isUserSelectionWindowOpen = false);
+
+	const addUsers = () => {
+		let usersToAdd: UserInfo[] = [];
+
+		store.selectedUserIds.forEach((selectedUserId) => {
+			usersToAdd.push(
+				store.availableUsers.find((user) => user.id === selectedUserId) || ({} as UserInfo)
+			);
+		});
+
+		store.addedUsers = usersToAdd;
+	};
 </script>
 
 <style lang="scss">
 	.user-selection-window {
+		position: absolute;
 		width: 28rem;
+		height: fit-content;
+		border-radius: 0.4rem;
 		box-shadow: $shadow-modal;
 		font-family: 'Inter';
 
