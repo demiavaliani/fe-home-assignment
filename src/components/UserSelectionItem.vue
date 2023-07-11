@@ -3,7 +3,7 @@
 		<div class="user-selection-item__avatar">
 			<img :src="getImageUrl(imgUrl)" />
 		</div>
-		<div class="user-selection-item__full-name">{{ fullName }}</div>
+		<p class="user-selection-item__full-name">{{ fullName }}</p>
 		<img
 			v-if="active"
 			class="user-selection-item__icon-tick"
@@ -57,6 +57,7 @@
 			font-weight: 400;
 			line-height: 1.6rem;
 			color: $neutral-90;
+			pointer-events: none;
 		}
 
 		&__icon-tick {

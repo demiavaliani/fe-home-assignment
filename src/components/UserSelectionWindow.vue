@@ -1,10 +1,11 @@
 <template>
-	<div class="user-selection-window">
+	<div class="user-selection-window" v-if="store.isUserSelectionWindowOpen">
 		<div class="user-selection-window__header">
 			<div class="user-selection-window__text">
 				<p class="user-selection-window__title">Add users</p>
-				<!-- <p class="user-selection-window__cancel">Cancel</p> -->
-				<button type="button" class="user-selection-window__cancel">Cancel</button>
+				<button type="button" class="user-selection-window__cancel" @click="onCancel">
+					Cancel
+				</button>
 			</div>
 
 			<div class="user-selection-window__search">
@@ -29,10 +30,14 @@
 <script lang="ts" setup>
 	import { ref } from 'vue';
 	import UserSelectionItemWrapper from './UserSelectionItemWrapper.vue';
+	import { useUsersStore } from '@/stores/usersStore';
 
 	const searchText = ref('');
+	const store = useUsersStore();
 
 	const onUserType = (ev: Event) => (searchText.value = (ev.target as HTMLInputElement).value);
+
+	const onCancel = () => (store.isUserSelectionWindowOpen = false);
 </script>
 
 <style lang="scss">
